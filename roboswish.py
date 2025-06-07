@@ -92,32 +92,95 @@ class OnboardingDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Welcome to RoboSwish!")
-        self.setMinimumWidth(400)
-        layout = QVBoxLayout()
-        icon_path = os.path.join(os.path.dirname(__file__), "../roboswish_angle.png")
+        self.setMinimumWidth(420)
+        icon_path = os.path.join(os.path.dirname(__file__), "public/images/roboswish_angle.png")
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
-        label = QLabel("<h2>🤖 Welcome to RoboSwish!</h2><br>I'm your AI copilot. Would you like a quick tour of the features?")
+
+        # Main layout
+        layout = QVBoxLayout()
+        layout.setContentsMargins(30, 30, 30, 30)
+        layout.setSpacing(18)
+
+        # Styled label
+        label = QLabel("""
+            <div style='font-size:22px; font-weight:bold; color:#00FF88; margin-bottom:10px;'>🤖 Welcome to RoboSwish!</div>
+            <div style='font-size:15px; color:#B3E5FC; text-shadow:0 0 8px #4FC3F7;'>
+                I'm your fairly smart sidebar copilot.<br>Would you like a quick tour of the features?
+            </div>
+        """)
         label.setWordWrap(True)
+        label.setAlignment(Qt.AlignCenter)
         layout.addWidget(label)
+
+        # Button styles
+        btn_style = (
+            "QPushButton { background-color: #15232e; color: #00FF88; font-weight: bold; padding: 10px 18px; border-radius: 8px; font-size: 15px; }"
+            "QPushButton:hover { background-color: #00FF88; color: #0F1419; }"
+        )
+
         self.tour_btn = QPushButton("Show me the tour!")
+        self.tour_btn.setStyleSheet(btn_style)
         self.tour_btn.clicked.connect(self.show_tour)
         self.skip_btn = QPushButton("Skip for now")
+        self.skip_btn.setStyleSheet(btn_style)
         self.skip_btn.clicked.connect(self.reject)
         btns = QHBoxLayout()
         btns.addWidget(self.tour_btn)
         btns.addWidget(self.skip_btn)
         layout.addLayout(btns)
+
+        # Set dialog background and border
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #0F1419;
+                color: #00FF88;
+                border: 2px solid #00FF88;
+                border-radius: 16px;
+            }
+        """)
         self.setLayout(layout)
 
     def show_tour(self):
-        QMessageBox.information(self, "RoboSwish Tour",
-            "<b>Mode Launcher:</b> Launches browser tabs for your favorite workflows.<br><br>"
-            "<b>Super Focus Burst:</b> 5-minute tunnel vision timer.<br><br>"
-            "<b>Theme Switching:</b> Visually unique color schemes.<br><br>"
-            "<b>AI Chat:</b> Local LLM assistant in the sidebar.<br><br>"
-            "<b>Settings:</b> Click the gear icon to change browser, model, or API endpoint!<br><br>"
-            "<i>Ready to boost your productivity? 🚀</i>")
+        # Custom styled tour dialog
+        tour = QDialog(self)
+        tour.setWindowTitle("RoboSwish Tour")
+        tour.setMinimumWidth(420)
+        tour.setStyleSheet("""
+            QDialog {
+                background-color: #0F1419;
+                color: #00FF88;
+                border: 2px solid #00FF88;
+                border-radius: 16px;
+            }
+            QLabel { color: #B3E5FC; font-size: 15px; }
+        """)
+        vbox = QVBoxLayout()
+        vbox.setContentsMargins(30, 30, 30, 30)
+        vbox.setSpacing(16)
+        msg = QLabel("""
+            <div style='font-size:18px; color:#00FF88; font-weight:bold; margin-bottom:10px;'>🚀 RoboSwish Tour</div>
+            <ul style='font-size:15px; color:#B3E5FC; text-shadow:0 0 8px #4FC3F7;'>
+                <li><b>Mode Launcher:</b> Launches browser tabs for your favorite workflows.</li>
+                <li><b>Super Focus Burst:</b> 5-minute tunnel vision timer.</li>
+                <li><b>Theme Switching:</b> Visually unique color schemes.</li>
+                <li><b>AI Chat:</b> Local LLM assistant in the sidebar.</li>
+                <li><b>Settings:</b> Click the gear icon to change browser, model, or API endpoint!</li>
+            </ul>
+            <div style='margin-top:10px; color:#00FF88; font-style:italic;'>Ready to boost your productivity? 🚀</div>
+        """)
+        msg.setWordWrap(True)
+        msg.setAlignment(Qt.AlignLeft)
+        vbox.addWidget(msg)
+        ok_btn = QPushButton("Let's go!")
+        ok_btn.setStyleSheet(
+            "QPushButton { background-color: #00FF88; color: #0F1419; font-weight: bold; padding: 10px 18px; border-radius: 8px; font-size: 15px; }"
+            "QPushButton:hover { background-color: #15232e; color: #00FF88; }"
+        )
+        ok_btn.clicked.connect(tour.accept)
+        vbox.addWidget(ok_btn, alignment=Qt.AlignCenter)
+        tour.setLayout(vbox)
+        tour.exec_()
         self.accept()
 
 class SettingsDialog(QDialog):
@@ -335,7 +398,7 @@ class RoboSwish(QWidget):
         self.focus_timer = None
         self.time_left = FOCUS_BURST_SECONDS
 
-        icon_path = os.path.join(os.path.dirname(__file__), "../roboswish_angle.png")
+        icon_path = os.path.join(os.path.dirname(__file__), "public/images/roboswish_angle.png")
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
 
