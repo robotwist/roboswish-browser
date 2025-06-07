@@ -1,0 +1,22 @@
+{
+  "Work Mode": [
+    "https://calendar.google.com",
+    "https://mail.google.com",
+    "https://notion.so"
+  ],
+  "Code Study": [
+    "https://neetcode.io",
+    "https://github.com",
+    "https://docs.python.org/3/"
+  ],
+  "Finance Review": [
+    "https://mint.intuit.com",
+    "https://coinmarketcap.com",
+    "https://finance.yahoo.com"
+  ],
+  "Creative Mode": [
+    "https://figma.com",
+    "https://poe.com",
+    "https://arc.net"
+  ]
+}
