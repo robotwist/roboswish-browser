@@ -25,4 +25,3 @@ cd roboswish
 
 ---
 
-You're building a productivity cockpit like no other — streamlined, focused, and quirky in all the right ways. Want a cool ASCII-style splash screen next? Or should we polish the chat handler next with error fallback and streaming response?
